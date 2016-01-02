@@ -33,7 +33,7 @@ if (!empty($loginname_data))
 		else
 		{
 			// Begin Register
-			for ($i=0; $i < count($Subject_To_Register); $i++)
+			for ($i=0, $success=0, $failure=0; $i < count($Subject_To_Register); $i++)
 			{
 				echo "-------------------------------- ". $Subject_To_Register[$i]['SubjectCode'] . " --------------------------------\n";
 				echo "[". getTimeNow() . "] Register Information : Search and Select Subject ". $Subject_To_Register[$i]['SubjectCode'] . "\n";
@@ -56,6 +56,7 @@ if (!empty($loginname_data))
 				if (!empty($chkErrorBeforeSave))
 				{
 					echo "[". getTimeNow() . "] [".$Subject_To_Register[$i]['SubjectCode']."] Register Error Message : (Before Confirm Register) ".explode('<br>', $chkErrorBeforeSave)[0]."\n";
+					$failure++;
 				}
 				else
 				{
@@ -65,8 +66,12 @@ if (!empty($loginname_data))
 					$SemiFinalFormRegister['ctl00$ctl00$mainContent$PageContent$btnConfirm'] = 'Confirm The Registration';
 					$FinalRegister = GetDataFromURL($SIS_URL.'/WebRegist2005/Enroll/EnrollDetail.aspx',$SemiFinalFormRegister);
 					echo "[". getTimeNow() . "] [".$Subject_To_Register[$i]['SubjectCode']."] Register Information : Complete!\n";
+					$success++;
 				}
 			}
+			echo "------------------------------------------------------------------------\n";
+			echo "[". getTimeNow() . "] Registration finished :: Success: $success : Failure: $failure ::\n";
+			echo "------------------------------------------------------------------------\n";
 			break;	
 		}
 	}
